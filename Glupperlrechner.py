@@ -14,7 +14,36 @@ import os
 import timeit
 import time
 
-clear = lambda: os.system('cls')
+#clear = lambda: os.system('cls')
+
+   
+# Main function to play game     
+def main():
+  print_welcome()
+  print_n(3)
+  
+  mode = input("Spielmodus wählen (Singleplayer: 's', Multiplayer: 'm')")
+  if mode == 'm':
+    n_players = input("Wie viele Spieler? (Zahl eintippen, z.B. 2)")
+  diff = input("Schwierigkeitsgrad wählen (simple: 's', medium: 'm', hard: 'h')")
+  print_n(3)
+
+  if mode == 's':
+    Game = Singleplayer(diff)
+    order_params = Game.params_order()
+    free_fritz=Game.play_game(order_params[0], order_params[1], order_params[2])
+    if free_fritz == 'True':
+      modify_for_fritz()
+      NewGame = Singleplayer('fritz_mode')
+      order_params = NewGame.params_order()
+      NewGame.play_game(order_params[0], order_params[1], order_params[2])
+  
+  if mode == 'm':
+    Game = Multiplayer(diff,n_players)
+    order_params = Game.params_order()
+    Game.play_game(order_params[0], order_params[1], order_params[2])
+
+
 
 ## Array of glupperl designs that can be chosen
 # Even indices: 1D list of designs
@@ -464,31 +493,6 @@ class Multiplayer:
       print 'Da Rest hats leider foisch gmachd...'
       return 0
       
-      
-      
-def main():
-  print_welcome()
-  print_n(3)
-  
-  mode = input("Spielmodus wählen (Singleplayer: 's', Multiplayer: 'm')")
-  if mode == 'm':
-    n_players = input("Wie viele Spieler? (Zahl eintippen, z.B. 2)")
-  diff = input("Schwierigkeitsgrad wählen (simple: 's', medium: 'm', hard: 'h')")
-  print_n(3)
 
-  if mode == 's':
-    Game = Singleplayer(diff)
-    order_params = Game.params_order()
-    free_fritz=Game.play_game(order_params[0], order_params[1], order_params[2])
-    if free_fritz == 'True':
-      modify_for_fritz()
-      NewGame = Singleplayer('fritz_mode')
-      order_params = NewGame.params_order()
-      NewGame.play_game(order_params[0], order_params[1], order_params[2])
-  
-  if mode == 'm':
-    Game = Multiplayer(diff,n_players)
-    order_params = Game.params_order()
-    Game.play_game(order_params[0], order_params[1], order_params[2])
-
+# The actual call we make
 main()
